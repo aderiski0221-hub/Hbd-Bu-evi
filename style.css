@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    /* overflow hidden di body agar bunga/awan tidak buat scrollbar utama */
+    overflow: hidden; 
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #87CEEB, #E0F7FA); /* Langit Biru */
+    -webkit-font-smoothing: antialiased; /* Membuat font lebih halus di macOS/iOS */
+}
+
+/* --- Animasi Awan --- */
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+    opacity: 0.6; /* Sedikit lebih transparan agar halus */
+    z-index: 1;
+    animation: moveClouds linear infinite;
+}
+.cloud::after, .cloud::before {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+}
+/* Ukuran awan bervariasi di JS */
+@keyframes moveClouds {
+    from { transform: translateX(-150px); }
+    to { transform: translateX(100vw); }
+}
+
+/* --- Container Utama --- */
+.container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Memusatkan vertikal */
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Judul (Sangat Responsif) --- */
+h1 {
+    font-family: 'Dancing Script', cursive;
+    /* Ukuran font dinamis: clamp(min, preferred, max) */
+    font-size: clamp(2rem, 8vw, 3.5rem); 
+    color: #2E7D32;
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.6);
+    margin: 0 0 15px 0;
+    padding: 0 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    /* Transisi lebih halus dengan cubic-bezier */
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Kartu Teks (Responsif & Scrollable) --- */
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* Support Safari */
+    padding: clamp(15px, 4vw, 30px); /* Padding dinamis */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+    /* Lebar responsif */
+    width: 90%; 
+    max-width: 600px;
+    
+    /* Mencegah terpotong di mobile yang pendek */
+    max-height: 60vh; /* Maksimal 60% tinggi layar */
+    overflow-y: auto; /* Munculkan scrollbar vertical jika teks panjang */
+    
+    border: 2px solid #FFF;
+    box-sizing: border-box;
+    
+    /* Animasi muncul kartu */
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s, 
+                transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+}
+
+/* Styling Scrollbar Halus untuk Card (Webkit) */
+.card::-webkit-scrollbar {
+    width: 6px;
+}
+.card::-webkit-scrollbar-track {
+    background: transparent;
+}
+.card::-webkit-scrollbar-thumb {
+    background-color: rgba(46, 125, 50, 0.3);
+    border-radius: 10px;
+}
+
+/* --- Teks Ketik --- */
+#typing-text {
+    /* Ukuran font sedikit disesuaikan untuk mobile */
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    line-height: 1.7; /* Spasi antar baris lebih enak dibaca */
+    color: #333;
+    white-space: pre-wrap; /* Menjaga spasi dan baris baru */
+    text-align: left; /* Teks rata kiri agar rapi saat panjang */
+    font-weight: 300;
+}
+#typing-text b, #typing-text strong {
+    font-weight: 600;
+    color: #1B5E20;
+}
+
+/* --- Bunga Jatuh --- */
+.flower {
+    position: absolute;
+    z-index: 5;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear forwards;
+    will-change: transform; /* Optimasi hardware acceleration */
+}
+
+@keyframes fall {
+    0% { transform: translateY(-50px) rotate(0deg); }
+    100% { transform: translateY(105vh) rotate(360deg); }
+}
+
+/* --- Tombol Awal --- */
+.start-btn {
+    padding: 15px 30px;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    background: #FF69B4;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    
+    /* Transisi hover halus */
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.3s ease, 
+                opacity 0.5s ease;
+}
+.start-btn:hover { 
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
